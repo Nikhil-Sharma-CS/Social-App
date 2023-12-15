@@ -21,6 +21,8 @@ public class CommentService {
     @Autowired
     IUserRepo userRepo;
 
+
+    //Add comment on post
     public String commentOnPost(Comment comment) {
         //Check if post and commenter are valid
         Post post = postRepo.findById(comment.getPost().getPostId()).orElse(null);
@@ -36,6 +38,8 @@ public class CommentService {
         return "Commented on post";
     }
 
+
+    //Delete comment
     public String deleteComment(Integer commentId) {
         commentRepo.deleteById(commentId);
         return "Comment Deleted";

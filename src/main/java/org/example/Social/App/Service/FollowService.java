@@ -15,6 +15,8 @@ public class FollowService {
 
     @Autowired
     IUserRepo userRepo;
+
+    //Follow the user
     public String followUser(Follow follow) {
         //Firstly check if both users are valid or not
         User currentUserFollower = getUserById(follow.getCurrentUserFollower().getUserId());
@@ -38,6 +40,8 @@ public class FollowService {
         return "User Followed";
     }
 
+
+    //Unfollow a user
     public String unfollowUser(Integer followerId, Integer followingId) {
         User currentUserFollower = getUserById(followerId);
         User currentUser = getUserById(followingId);
@@ -55,6 +59,8 @@ public class FollowService {
         return "User unfollowed";
     }
 
+
+    //Retrieve user from ID
     public User getUserById(Integer id)
     {
         return  userRepo.findById(id).orElse(null);

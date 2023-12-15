@@ -6,13 +6,10 @@ import org.example.Social.App.Repository.IFollowRepo;
 import org.example.Social.App.Repository.IPostRepo;
 import org.example.Social.App.Repository.IUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMessage;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,6 +24,8 @@ public class PostService {
     @Autowired
     IFollowRepo followRepo;
 
+
+    //Create the post
     public String createPost(Post post, String email, String password) {
         //Firstly check if the user is valid or not
         User user = userRepo.findByuserEmail(email);
@@ -34,7 +33,7 @@ public class PostService {
         if(user == null)
             return "User not found!!";
 
-        if(!password.equals(user.getPassword()))
+        if(!password.equals(user.getUserPassword()))
             return "Password invalid!!";
 
 
@@ -44,11 +43,13 @@ public class PostService {
         return "Post Created";
     }
 
+    // Delete the post
     public String deletePost(Integer id) {
         postRepo.deleteById(id);
         return "Post Deleted";
     }
 
+    //See the list of post
     public ResponseEntity<List<Post>> seePosts(Integer userId, String userEmail, String userPassword) {
         //Now lets check if our user exists or not
         User user = userRepo.findById(userId).orElse(null);
@@ -63,7 +64,7 @@ public class PostService {
         if(viewer == null)
             return ResponseEntity.notFound().build();
 
-        if(!userPassword.equals(viewer.getPassword()))
+        if(!userPassword.equals(viewer.getUserPassword()))
                 return ResponseEntity.unprocessableEntity().build();
 
         //Now lets check if our viewer follows our user or not
